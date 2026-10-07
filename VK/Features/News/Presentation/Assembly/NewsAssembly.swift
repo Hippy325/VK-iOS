@@ -9,6 +9,7 @@ import UIKit
 
 final class NewsAssembly: INewsAssembly {
     func assembly() -> UIViewController {
-        return NewsViewController()
+        let presenter = NewsPresenter()
+        return NewsViewController(presenter: presenter)
     }
 }

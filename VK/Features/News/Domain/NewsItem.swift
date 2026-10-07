@@ -14,6 +14,7 @@ struct NewsItem: Hashable {
     let text: String
     let attachments: [Attachment]
     let likes: Likes
+    let comments: Comments
     let reposts: Reposts
 }
 
@@ -29,6 +30,10 @@ extension NewsItem {
 struct Likes: Hashable {
     let count: Int
     let userLikes: Bool
+}
+
+struct Comments: Hashable {
+    let count: Int
 }
 
 struct Reposts: Hashable {

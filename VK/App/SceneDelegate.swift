@@ -17,10 +17,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         options connectionOptions: UIScene.ConnectionOptions
     ) {
         guard let scene = (scene as? UIWindowScene) else { return }
-        
+
+        let rootViewController = UINavigationController(
+            rootViewController: NewsAssembly().assembly()
+        )
+
         window = UIWindow(windowScene: scene)
+        window?.rootViewController = rootViewController
         window?.makeKeyAndVisible()
-        window?.rootViewController = UIViewController(nibName: nil, bundle: nil)
     }
 }
-

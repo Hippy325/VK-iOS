@@ -6,5 +6,9 @@
 //
 
 final class NewsPresenter: INewsPresenter {
+    func didLoad() {
+        
+    }
+    
     
 }
