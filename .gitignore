@@ -27,3 +27,6 @@ Package.resolved
 # CocoaPods / Carthage (на будущее)
 Pods/
 Carthage/Build/
+
+# Local build dir (shell xcodebuild)
+.build-dd/
