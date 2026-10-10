@@ -8,12 +8,10 @@
 import UIKit
 
 enum AppColor {
-    /// Фон экрана.
     static let background = UIColor { trait in
         trait.userInterfaceStyle == .dark ? UIColor(white: 0.09, alpha: 1) : .white
     }
 
-    /// Фон карточки поста — чуть темнее фона экрана, чтобы тень была заметна.
     static let card = UIColor { trait in
         trait.userInterfaceStyle == .dark ? UIColor(white: 0.16, alpha: 1) : UIColor(white: 0.93, alpha: 1)
     }
@@ -38,6 +36,5 @@ enum AppColor {
         trait.userInterfaceStyle == .dark ? UIColor(white: 0.26, alpha: 1) : UIColor(white: 0.85, alpha: 1)
     }
 
-    /// VK blue, #0077FF
     static let accent = UIColor(red: 0, green: 0.467, blue: 1, alpha: 1)
 }

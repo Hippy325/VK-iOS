@@ -7,8 +7,7 @@
 
 import Foundation
 
-/// Пользователь из `profiles`.
-struct ProfileDTO: Decodable {
+nonisolated struct ProfileDTO: Decodable {
     let id: Int
     let firstName: String?
     let lastName: String?

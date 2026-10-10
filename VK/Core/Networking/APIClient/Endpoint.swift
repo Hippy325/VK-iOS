@@ -15,7 +15,6 @@ enum HTTPMethod: String {
     case delete = "DELETE"
 }
 
-/// Описание запроса к API. Конкретные эндпоинты — внутренняя деталь сервисов.
 protocol Endpoint {
     var scheme: String { get }
     var host: String { get }

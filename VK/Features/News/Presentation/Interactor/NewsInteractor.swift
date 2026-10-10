@@ -7,44 +7,34 @@
 
 import Foundation
 
-final class NewsInteractor: INewsInteractor {
+final class NewsInteractor {
+
+    // MARK: - Public properties
 
     weak var output: INewsInteractorOutput?
+
+    // MARK: - Private properties
 
     private let service: INewsService
     private var nextFrom: String?
     private var hasMore = true
     private var isLoading = false
 
+    // MARK: - Init
+
     init(service: INewsService) {
         self.service = service
     }
 
-    var canLoadMore: Bool {
-        hasMore && !isLoading
-    }
+    // MARK: - Private method
 
-    func loadFirstPage() {
-        nextFrom = nil
-        hasMore = true
-        load(nextFrom: nil)
-    }
-
-    func loadNextPage() {
-        guard canLoadMore else { return }
-        load(nextFrom: nextFrom)
-    }
-}
-
-private extension NewsInteractor {
-    func load(nextFrom: String?) {
+    private func load(nextFrom: String?) {
         guard !isLoading else { return }
         isLoading = true
 
         service.fetchNews(nextFrom: nextFrom) { [weak self] result in
             guard let self else { return }
 
-            // Сервис может ответить не на главном потоке — приводим к нему здесь.
             DispatchQueue.main.async {
                 self.isLoading = false
 
@@ -58,5 +48,24 @@ private extension NewsInteractor {
                 }
             }
         }
+    }
+}
+
+// MARK: - Extension INewsInteractor
+
+extension NewsInteractor: INewsInteractor {
+    var canLoadMore: Bool {
+        hasMore && !isLoading
+    }
+
+    func loadFirstPage() {
+        nextFrom = nil
+        hasMore = true
+        load(nextFrom: nil)
+    }
+
+    func loadNextPage() {
+        guard canLoadMore else { return }
+        load(nextFrom: nextFrom)
     }
 }

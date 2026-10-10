@@ -7,8 +7,7 @@
 
 import Foundation
 
-/// Одна запись ленты (`items[]`).
-struct NewsItemDTO: Decodable {
+nonisolated struct NewsItemDTO: Decodable {
     let type: String?
     let sourceId: Int
     let postId: Int?

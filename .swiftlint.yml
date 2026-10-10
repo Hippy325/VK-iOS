@@ -1,0 +1,57 @@
+# SwiftLint configuration
+# Запуск: swiftlint  (из корня проекта)
+
+included:
+  - VK
+
+excluded:
+  - .build-dd
+  - VK.xcodeproj
+
+disabled_rules:
+  # Стилевые правила, которые конфликтуют с нашим оформлением.
+  - trailing_comma
+
+opt_in_rules:
+  - closure_end_indentation
+  - empty_count
+  - empty_enum_arguments
+  - force_cast
+  - force_try
+  - force_unwrapping
+  - implicit_optional_initialization
+  - multiline_arguments
+  - multiline_parameters
+  - operator_usage_whitespace
+  - redundant_nil_coalescing
+  - sorted_imports
+  - untyped_error_in_catch
+  - unused_closure_parameter
+  - unused_optional_binding
+
+line_length:
+  warning: 120
+  error: 160
+  ignores_urls: true
+  ignores_comments: true
+
+identifier_name:
+  min_length: 2
+  excluded:
+    - id
+
+type_body_length:
+  warning: 300
+  error: 450
+
+file_length:
+  warning: 400
+  error: 600
+
+function_body_length:
+  warning: 50
+  error: 80
+
+cyclomatic_complexity:
+  warning: 10
+  error: 15

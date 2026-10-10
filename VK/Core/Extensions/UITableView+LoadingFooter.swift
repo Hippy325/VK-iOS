@@ -8,7 +8,6 @@
 import UIKit
 
 extension UITableView {
-    /// Показывает/скрывает спиннер загрузки в футере таблицы.
     func setLoadingFooter(_ isLoading: Bool) {
         guard isLoading else {
             tableFooterView = nil

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PhotoDTO: Decodable {
+nonisolated struct PhotoDTO: Decodable {
     let id: Int?
     let ownerId: Int?
     let width: Int?
@@ -23,8 +23,7 @@ struct PhotoDTO: Decodable {
     }
 }
 
-/// Одна копия фотографии в `sizes`.
-struct PhotoSizeDTO: Decodable {
+nonisolated struct PhotoSizeDTO: Decodable {
     let type: String?
     let url: String?
     let width: Int?

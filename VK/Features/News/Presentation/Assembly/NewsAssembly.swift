@@ -7,7 +7,25 @@
 
 import UIKit
 
-final class NewsAssembly: INewsAssembly {
+final class NewsAssembly {
+
+    // MARK: - Private method
+
+    private func makeService() -> INewsService {
+        let token = AppConfig.vkAccessToken
+        guard !token.isEmpty else {
+            return NewsServiceMock()
+        }
+        return NewsService(
+            apiClient: APIClient.shared,
+            token: token
+        )
+    }
+}
+
+// MARK: - Extension INewsAssembly
+
+extension NewsAssembly: INewsAssembly {
     func assembly() -> UIViewController {
         let interactor = NewsInteractor(service: makeService())
         let presenter = NewsPresenter()
@@ -20,16 +38,5 @@ final class NewsAssembly: INewsAssembly {
         interactor.output = presenter
 
         return view
-    }
-}
-
-private extension NewsAssembly {
-    /// Пока не задан токен VK — работаем на моке, чтобы приложение запускалось.
-    func makeService() -> INewsService {
-        let token = AppConfig.vkAccessToken
-        guard !token.isEmpty else {
-            return NewsServiceMock()
-        }
-        return NewsService(apiClient: APIClient.shared, token: token)
     }
 }

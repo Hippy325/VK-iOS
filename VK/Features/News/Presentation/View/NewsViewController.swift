@@ -9,16 +9,9 @@ import UIKit
 
 final class NewsViewController: UIViewController {
 
-    private let presenter: INewsPresenter
-    private var items: [NewsItem] = []
+    // MARK: - View
 
     private lazy var titleView = UserTitleView()
-
-    private lazy var refreshControl: UIRefreshControl = {
-        let control = UIRefreshControl()
-        control.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
-        return control
-    }()
 
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -38,6 +31,19 @@ final class NewsViewController: UIViewController {
         return tableView
     }()
 
+    private lazy var refreshControl: UIRefreshControl = {
+        let control = UIRefreshControl()
+        control.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        return control
+    }()
+
+    // MARK: - Private properties
+
+    private let presenter: INewsPresenter
+    private var items: [NewsItem] = []
+
+    // MARK: - Init
+
     init(presenter: INewsPresenter) {
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
@@ -47,12 +53,16 @@ final class NewsViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: - Lifecycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         setupNavigationBar()
         presenter.didLoad()
     }
+
+    // MARK: - Private method
 
     @objc private func handleRefresh() {
         presenter.didPullToRefresh()
@@ -83,14 +93,18 @@ final class NewsViewController: UIViewController {
         navigationController?.navigationBar.compactAppearance = appearance
         navigationController?.navigationBar.prefersLargeTitles = false
 
-        // Системное плавное скрытие панели при скролле вниз.
         navigationController?.hidesBarsOnSwipe = true
 
-        titleView.configure(name: "Пользователь", avatarURL: nil)
+        titleView.configure(
+            name: "Пользователь",
+            avatarURL: nil
+        )
         navigationItem.titleView = titleView
         navigationItem.largeTitleDisplayMode = .never
     }
 }
+
+// MARK: - Extension INewsView
 
 extension NewsViewController: INewsView {
     func display(_ state: NewsViewState) {
@@ -115,6 +129,8 @@ extension NewsViewController: INewsView {
     }
 }
 
+// MARK: - Extension UITableViewDataSource
+
 extension NewsViewController: UITableViewDataSource {
     func tableView(
         _ tableView: UITableView,
@@ -136,6 +152,8 @@ extension NewsViewController: UITableViewDataSource {
     }
 }
 
+// MARK: - Extension UITableViewDelegate
+
 extension NewsViewController: UITableViewDelegate {
     func tableView(
         _ tableView: UITableView,
@@ -146,6 +164,8 @@ extension NewsViewController: UITableViewDelegate {
         presenter.didReachEnd()
     }
 }
+
+// MARK: - Extension UITableViewDataSourcePrefetching
 
 extension NewsViewController: UITableViewDataSourcePrefetching {
     func tableView(

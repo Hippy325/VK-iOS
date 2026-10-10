@@ -9,12 +9,10 @@ import UIKit
 
 final class NewsTableViewCell: UITableViewCell {
 
-    static let reuseIdentifier = String(describing: NewsTableViewCell.self)
+    // MARK: - View
 
-    // Карточка: даёт радиус и тень
     private let cardView = UIView()
 
-    // Секция 1: автор
     private lazy var authorAvatarView: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = AppColor.placeholder
@@ -33,7 +31,6 @@ final class NewsTableViewCell: UITableViewCell {
         return label
     }()
 
-    // Секция 2: медиа и описание
     private let photoGridView = PhotoGridView()
 
     private lazy var postTextLabel: UILabel = {
@@ -44,7 +41,6 @@ final class NewsTableViewCell: UITableViewCell {
         return label
     }()
 
-    // Секция 3: действия и дата
     private let likeButton = IconTextButton()
     private let commentButton = IconTextButton()
     private let repostButton = IconTextButton()
@@ -63,7 +59,25 @@ final class NewsTableViewCell: UITableViewCell {
     private let footerStack = UIStackView()
     private lazy var rootStack = UIStackView(arrangedSubviews: [headerStack, contentStack, footerStack])
 
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+    // MARK: - Public properties
+
+    static let reuseIdentifier = String(describing: NewsTableViewCell.self)
+
+    // MARK: - Private properties
+
+    private static let dateFormatter: RelativeDateTimeFormatter = {
+        let formatter = RelativeDateTimeFormatter()
+        formatter.locale = Locale(identifier: "ru_RU")
+        formatter.unitsStyle = .short
+        return formatter
+    }()
+
+    // MARK: - Init
+
+    override init(
+        style: UITableViewCell.CellStyle,
+        reuseIdentifier: String?
+    ) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setup()
     }
@@ -71,6 +85,8 @@ final class NewsTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // MARK: - Lifecycle
 
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -86,6 +102,8 @@ final class NewsTableViewCell: UITableViewCell {
             cornerRadius: Metrics.cornerRadius
         ).cgPath
     }
+
+    // MARK: - Public method
 
     func configure(_ newsItem: NewsItem) {
         authorNameLabel.text = newsItem.author.name
@@ -103,17 +121,10 @@ final class NewsTableViewCell: UITableViewCell {
 
         dateLabel.text = Self.dateFormatter.localizedString(for: newsItem.date, relativeTo: Date())
     }
-}
 
-private extension NewsTableViewCell {
-    static let dateFormatter: RelativeDateTimeFormatter = {
-        let formatter = RelativeDateTimeFormatter()
-        formatter.locale = Locale(identifier: "ru_RU")
-        formatter.unitsStyle = .short
-        return formatter
-    }()
+    // MARK: - Private method
 
-    func setup() {
+    private func setup() {
         selectionStyle = .none
         backgroundColor = .clear
         contentView.backgroundColor = .clear
@@ -125,7 +136,7 @@ private extension NewsTableViewCell {
         setupRoot()
     }
 
-    func setupCard() {
+    private func setupCard() {
         cardView.backgroundColor = AppColor.card
         cardView.layer.cornerRadius = Metrics.cornerRadius
         cardView.layer.borderWidth = 0.5
@@ -139,13 +150,19 @@ private extension NewsTableViewCell {
 
         NSLayoutConstraint.activate([
             cardView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Metrics.Inset.cardVertical),
-            cardView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metrics.Inset.cardHorizontal),
-            cardView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Metrics.Inset.cardHorizontal),
+            cardView.leadingAnchor.constraint(
+                equalTo: contentView.leadingAnchor,
+                constant: Metrics.Inset.cardHorizontal
+            ),
+            cardView.trailingAnchor.constraint(
+                equalTo: contentView.trailingAnchor,
+                constant: -Metrics.Inset.cardHorizontal
+            ),
             cardView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Metrics.Inset.cardVertical),
         ])
     }
 
-    func setupHeader() {
+    private func setupHeader() {
         authorAvatarView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             authorAvatarView.widthAnchor.constraint(equalToConstant: Metrics.Size.avatar),
@@ -159,14 +176,14 @@ private extension NewsTableViewCell {
         headerStack.addArrangedSubview(authorNameLabel)
     }
 
-    func setupContent() {
+    private func setupContent() {
         contentStack.axis = .vertical
-        contentStack.spacing = 10 // отступ фото ↔ описание (было 8, +2)
+        contentStack.spacing = 10
         contentStack.addArrangedSubview(photoGridView)
         contentStack.addArrangedSubview(postTextLabel)
     }
 
-    func setupFooter() {
+    private func setupFooter() {
         let spacer = UIView()
         spacer.setContentHuggingPriority(.defaultLow, for: .horizontal)
         spacer.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
@@ -181,9 +198,9 @@ private extension NewsTableViewCell {
         footerStack.addArrangedSubview(dateLabel)
     }
 
-    func setupRoot() {
+    private func setupRoot() {
         rootStack.axis = .vertical
-        rootStack.spacing = 6 // отступы между секциями (было 4, +2)
+        rootStack.spacing = 6
         rootStack.translatesAutoresizingMaskIntoConstraints = false
         cardView.addSubview(rootStack)
 

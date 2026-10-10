@@ -8,8 +8,6 @@
 import Foundation
 
 enum AppConfig {
-    /// Токен доступа VK. Пустая строка, если не задан.
-    /// Значение берётся из `Secrets.plist` (в `.gitignore`).
     static var vkAccessToken: String {
         guard
             let url = Bundle.main.url(forResource: "Secrets", withExtension: "plist"),

@@ -18,15 +18,11 @@ enum Metrics {
     }
 
     enum Inset {
-        /// Отступ таблицы от краёв экрана.
         static let screen: CGFloat = 8
-        /// Внутренние отступы карточки поста.
         static let horizontal: CGFloat = 12
         static let vertical: CGFloat = 12
-        /// Отступ карточки внутри ячейки, чтобы тень не обрезалась таблицей.
         static let cardHorizontal: CGFloat = 4
-        /// Расстояние между карточками постов (делится поровну между соседними ячейками).
-        static let postSpacing: CGFloat = 16
+        static let postSpacing: CGFloat = 12
         static let cardVertical: CGFloat = postSpacing / 2
     }
 

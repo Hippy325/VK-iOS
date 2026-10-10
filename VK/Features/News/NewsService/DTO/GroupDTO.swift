@@ -7,8 +7,7 @@
 
 import Foundation
 
-/// Сообщество из `groups`.
-struct GroupDTO: Decodable {
+nonisolated struct GroupDTO: Decodable {
     let id: Int
     let name: String?
     let screenName: String?

@@ -7,8 +7,7 @@
 
 import Foundation
 
-/// Ответ метода `newsfeed.get`.
-struct NewsFeedResponseDTO: Decodable {
+nonisolated struct NewsFeedResponseDTO: Decodable {
     let items: [NewsItemDTO]
     let profiles: [ProfileDTO]?
     let groups: [GroupDTO]?

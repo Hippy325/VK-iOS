@@ -7,9 +7,9 @@
 
 import UIKit
 
-/// Кнопка с иконкой слева и текстом справа.
-/// Используется для действий поста: лайк, комментарий, репост.
 final class IconTextButton: UIButton {
+
+    // MARK: - Init
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -20,14 +20,19 @@ final class IconTextButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configure(icon: UIImage?, title: String) {
+    // MARK: - Public method
+
+    func configure(
+        icon: UIImage?,
+        title: String
+    ) {
         configuration?.image = icon
         configuration?.title = title
     }
-}
 
-private extension IconTextButton {
-    func setup() {
+    // MARK: - Private method
+
+    private func setup() {
         var config = UIButton.Configuration.plain()
         config.imagePlacement = .leading
         config.imagePadding = Metrics.Spacing.tiny

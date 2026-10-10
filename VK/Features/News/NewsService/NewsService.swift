@@ -7,23 +7,44 @@
 
 import Foundation
 
-/// Реальная реализация источника новостей через VK API.
-final class NewsService: INewsService {
+final class NewsService {
+
+    // MARK: - Private properties
 
     private let apiClient: IAPIClient
     private let token: String
     private let count: Int
 
-    init(apiClient: IAPIClient, token: String, count: Int = 20) {
+    // MARK: - Init
+
+    init(
+        apiClient: IAPIClient,
+        token: String,
+        count: Int = 20
+    ) {
         self.apiClient = apiClient
         self.token = token
         self.count = count
     }
+}
 
-    func fetchNews(nextFrom: String?, completion: @escaping (Result<NewsPage, Error>) -> Void) {
-        let endpoint = NewsFeedEndpoint(token: token, startFrom: nextFrom, count: count)
+// MARK: - Extension INewsService
 
-        apiClient.request(endpoint) { (result: Result<NewsFeedResponseDTO, APIError>) in
+extension NewsService: INewsService {
+    func fetchNews(
+        nextFrom: String?,
+        completion: @escaping (Result<NewsPage, Error>) -> Void
+    ) {
+        let endpoint = NewsFeedEndpoint(
+            token: token,
+            startFrom: nextFrom,
+            count: count
+        )
+
+        apiClient.request(
+            endpoint,
+            responseType: NewsFeedResponseDTO.self
+        ) { result in
             switch result {
             case .success(let dto):
                 completion(.success(NewsFeedMapper.makePage(from: dto)))

@@ -7,12 +7,15 @@
 
 import UIKit
 
-/// Заголовок навигационной панели: аватар пользователя и его имя.
 final class UserTitleView: UIView {
+
+    // MARK: - View
 
     private let avatarImageView = UIImageView()
     private let nameLabel = UILabel()
     private let stack = UIStackView()
+
+    // MARK: - Init
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -23,15 +26,19 @@ final class UserTitleView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configure(name: String, avatarURL: URL?) {
+    // MARK: - Public method
+
+    func configure(
+        name: String,
+        avatarURL: URL?
+    ) {
         nameLabel.text = name
-        // Загрузка аватара по URL — отдельная задача.
         avatarImageView.image = UIImage(systemName: "person.crop.circle.fill")
     }
-}
 
-private extension UserTitleView {
-    func setup() {
+    // MARK: - Private method
+
+    private func setup() {
         avatarImageView.backgroundColor = AppColor.placeholder
         avatarImageView.tintColor = AppColor.secondaryText
         avatarImageView.contentMode = .center

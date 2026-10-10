@@ -7,9 +7,7 @@
 
 import Foundation
 
-/// VK отдаёт булевы значения как 0/1, поэтому здесь `Int`, а перевод — в маппере.
-
-struct LikesDTO: Decodable {
+nonisolated struct LikesDTO: Decodable {
     let count: Int?
     let userLikes: Int?
     let canLike: Int?
@@ -21,7 +19,7 @@ struct LikesDTO: Decodable {
     }
 }
 
-struct CommentsDTO: Decodable {
+nonisolated struct CommentsDTO: Decodable {
     let count: Int?
     let canPost: Int?
 
@@ -31,7 +29,7 @@ struct CommentsDTO: Decodable {
     }
 }
 
-struct RepostsDTO: Decodable {
+nonisolated struct RepostsDTO: Decodable {
     let count: Int?
     let userReposted: Int?
 

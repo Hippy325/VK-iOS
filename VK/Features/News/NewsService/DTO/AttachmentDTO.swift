@@ -7,9 +7,7 @@
 
 import Foundation
 
-/// Вложение записи. Пока поддерживаем только фото,
-/// остальные типы (`video`, `link`, ...) добавляются по мере необходимости.
-struct AttachmentDTO: Decodable {
+nonisolated struct AttachmentDTO: Decodable {
     let type: String
     let photo: PhotoDTO?
 }

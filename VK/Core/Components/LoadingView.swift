@@ -7,14 +7,19 @@
 
 import UIKit
 
-/// Общий индикатор загрузки.
 final class LoadingView: UIView {
 
+    // MARK: - View
+
     private let indicator = UIActivityIndicatorView(style: .medium)
+
+    // MARK: - Public properties
 
     var isAnimating: Bool {
         indicator.isAnimating
     }
+
+    // MARK: - Init
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -25,6 +30,8 @@ final class LoadingView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: - Public method
+
     func startAnimating() {
         indicator.startAnimating()
     }
@@ -32,10 +39,10 @@ final class LoadingView: UIView {
     func stopAnimating() {
         indicator.stopAnimating()
     }
-}
 
-private extension LoadingView {
-    func setup() {
+    // MARK: - Private method
+
+    private func setup() {
         indicator.color = AppColor.secondaryText
         indicator.translatesAutoresizingMaskIntoConstraints = false
         addSubview(indicator)

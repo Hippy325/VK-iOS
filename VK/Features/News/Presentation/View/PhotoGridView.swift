@@ -7,14 +7,19 @@
 
 import UIKit
 
-/// Показывает вложения-фотографии поста:
-/// одна — во всю ширину с сохранением пропорций, несколько — сеткой 2 в ряд.
 final class PhotoGridView: UIView {
+
+    // MARK: - View
+
+    private let rowsStack = UIStackView()
+
+    // MARK: - Private properties
 
     private static let maxVisiblePhotos = 4
 
-    private let rowsStack = UIStackView()
     private var singlePhotoAspectConstraint: NSLayoutConstraint?
+
+    // MARK: - Init
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -24,6 +29,8 @@ final class PhotoGridView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // MARK: - Public method
 
     func configure(with photos: [Photo]) {
         reset()
@@ -40,10 +47,10 @@ final class PhotoGridView: UIView {
             configureGrid(photos: Array(photos.prefix(Self.maxVisiblePhotos)))
         }
     }
-}
 
-private extension PhotoGridView {
-    func setup() {
+    // MARK: - Private method
+
+    private func setup() {
         rowsStack.axis = .vertical
         rowsStack.spacing = Metrics.Spacing.tiny
         rowsStack.alignment = .fill
@@ -58,7 +65,7 @@ private extension PhotoGridView {
         ])
     }
 
-    func reset() {
+    private func reset() {
         singlePhotoAspectConstraint?.isActive = false
         singlePhotoAspectConstraint = nil
 
@@ -68,7 +75,7 @@ private extension PhotoGridView {
         }
     }
 
-    func configureSinglePhoto(_ photo: Photo) {
+    private func configureSinglePhoto(_ photo: Photo) {
         let imageView = makeImageView()
         rowsStack.addArrangedSubview(imageView)
 
@@ -78,7 +85,7 @@ private extension PhotoGridView {
         singlePhotoAspectConstraint = constraint
     }
 
-    func configureGrid(photos: [Photo]) {
+    private func configureGrid(photos: [Photo]) {
         var index = 0
         while index < photos.count {
             let row = makeRow()
@@ -98,7 +105,7 @@ private extension PhotoGridView {
         }
     }
 
-    func makeRow() -> UIStackView {
+    private func makeRow() -> UIStackView {
         let row = UIStackView()
         row.axis = .horizontal
         row.spacing = Metrics.Spacing.tiny
@@ -106,13 +113,12 @@ private extension PhotoGridView {
         return row
     }
 
-    func makeImageView() -> UIImageView {
+    private func makeImageView() -> UIImageView {
         let imageView = UIImageView()
         imageView.backgroundColor = AppColor.placeholder
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = Metrics.cornerRadius
-        // Загрузка картинки по url — отдельная задача.
         return imageView
     }
 }

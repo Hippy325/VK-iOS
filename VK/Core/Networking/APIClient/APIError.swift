@@ -8,19 +8,12 @@
 import Foundation
 
 enum APIError: Error {
-    /// Не удалось собрать URL из компонентов эндпоинта.
     case invalidURL
-    /// Сервер вернул пустой ответ.
     case noData
-    /// Ошибка кодирования тела запроса.
     case encoding(Error)
-    /// Ответ не совпал с ожидаемой структурой.
     case decoding(Error)
-    /// Транспортная ошибка URLSession: нет сети, таймаут, отмена.
     case transport(Error)
-    /// HTTP-статус вне диапазона 2xx.
     case http(statusCode: Int)
-    /// Ошибка уровня VK API (`error.error_code` / `error_msg`).
     case api(code: Int, message: String)
 }
 

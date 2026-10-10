@@ -7,11 +7,8 @@
 
 import Foundation
 
-/// Превращает ответ VK в доменную модель ленты.
 enum NewsFeedMapper {
 
-    /// Целевая ширина картинки: берём ближайший размер не меньше неё,
-    /// чтобы не тянуть оригиналы на 2560 px.
     private static let preferredPhotoWidth = 600
 
     static func makePage(from dto: NewsFeedResponseDTO) -> NewsPage {
@@ -19,7 +16,11 @@ enum NewsFeedMapper {
         let groups = makeGroupsMap(dto.groups)
 
         let items: [NewsItem] = dto.items.compactMap { item in
-            guard let author = makeAuthor(sourceId: item.sourceId, profiles: profiles, groups: groups) else {
+            guard let author = makeAuthor(
+                sourceId: item.sourceId,
+                profiles: profiles,
+                groups: groups
+            ) else {
                 return nil
             }
 
@@ -29,23 +30,38 @@ enum NewsFeedMapper {
                 date: Date(timeIntervalSince1970: TimeInterval(item.date)),
                 text: item.text ?? "",
                 attachments: makeAttachments(item.attachments),
-                likes: Likes(count: item.likes?.count ?? 0, userLikes: item.likes?.userLikes == 1),
+                likes: Likes(
+                    count: item.likes?.count ?? 0,
+                    userLikes: item.likes?.userLikes == 1
+                ),
                 comments: Comments(count: item.comments?.count ?? 0),
-                reposts: Reposts(count: item.reposts?.count ?? 0, userReposted: item.reposts?.userReposted == 1)
+                reposts: Reposts(
+                    count: item.reposts?.count ?? 0,
+                    userReposted: item.reposts?.userReposted == 1
+                )
             )
         }
 
-        return NewsPage(items: items, nextFrom: dto.nextFrom)
+        return NewsPage(
+            items: items,
+            nextFrom: dto.nextFrom
+        )
     }
 }
 
 private extension NewsFeedMapper {
     static func makeProfilesMap(_ profiles: [ProfileDTO]?) -> [Int: ProfileDTO] {
-        Dictionary((profiles ?? []).map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+        Dictionary(
+            (profiles ?? []).map { ($0.id, $0) },
+            uniquingKeysWith: { first, _ in first }
+        )
     }
 
     static func makeGroupsMap(_ groups: [GroupDTO]?) -> [Int: GroupDTO] {
-        Dictionary((groups ?? []).map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+        Dictionary(
+            (groups ?? []).map { ($0.id, $0) },
+            uniquingKeysWith: { first, _ in first }
+        )
     }
 
     static func makeAuthor(

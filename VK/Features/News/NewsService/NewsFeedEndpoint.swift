@@ -7,7 +7,6 @@
 
 import Foundation
 
-/// Эндпоинт `newsfeed.get`. Внутренняя деталь `NewsService`.
 struct NewsFeedEndpoint: Endpoint {
     let token: String
     let startFrom: String?

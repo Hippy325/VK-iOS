@@ -8,7 +8,6 @@
 import Foundation
 
 protocol INewsService {
-    /// Загружает страницу новостей. `nextFrom == nil` — первая страница.
     func fetchNews(
         nextFrom: String?,
         completion: @escaping (Result<NewsPage, Error>) -> Void

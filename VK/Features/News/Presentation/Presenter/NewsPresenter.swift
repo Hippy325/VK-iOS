@@ -7,15 +7,22 @@
 
 import Foundation
 
-final class NewsPresenter: INewsPresenter {
+final class NewsPresenter {
+
+    // MARK: - Public properties
 
     weak var view: INewsView?
     var interactor: INewsInteractor?
     var router: INewsRouter?
 
-    /// Источник правды уровня экрана: накопленные посты.
-    private var items: [NewsItem] = []
+    // MARK: - Private properties
 
+    private var items: [NewsItem] = []
+}
+
+// MARK: - Extension INewsPresenter
+
+extension NewsPresenter: INewsPresenter {
     func didLoad() {
         view?.display(.loading)
         interactor?.loadFirstPage()
@@ -32,6 +39,8 @@ final class NewsPresenter: INewsPresenter {
         interactor?.loadNextPage()
     }
 }
+
+// MARK: - Extension INewsInteractorOutput
 
 extension NewsPresenter: INewsInteractorOutput {
     func didReceive(_ page: NewsPage) {

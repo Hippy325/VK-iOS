@@ -6,7 +6,6 @@
 //
 
 protocol INewsInteractor: AnyObject {
-    /// Можно ли запросить следующую страницу (есть данные и нет активной загрузки).
     var canLoadMore: Bool { get }
 
     func loadFirstPage()

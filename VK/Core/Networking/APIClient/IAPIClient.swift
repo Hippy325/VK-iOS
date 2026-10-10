@@ -8,10 +8,9 @@
 import Foundation
 
 protocol IAPIClient: AnyObject {
-    /// Выполняет запрос по `Endpoint`.
-    /// - Note: `completion` вызывается не на главном потоке — переключаться на main должен вызывающий.
-    func request<T: Decodable>(
+    func request<T: Decodable & Sendable>(
         _ endpoint: Endpoint,
+        responseType: T.Type,
         completion: @escaping (Result<T, APIError>) -> Void
     )
 }
