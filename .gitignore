@@ -30,3 +30,9 @@ Carthage/Build/
 
 # Local build dir (shell xcodebuild)
 .build-dd/
+
+# MobileBuildMCP local config
+.mobilebuildmcp/
+
+# VK API secrets (never commit)
+Secrets.plist
