@@ -161,7 +161,7 @@ private extension NewsTableViewCell {
 
     func setupContent() {
         contentStack.axis = .vertical
-        contentStack.spacing = Metrics.Spacing.small
+        contentStack.spacing = 10 // отступ фото ↔ описание (было 8, +2)
         contentStack.addArrangedSubview(photoGridView)
         contentStack.addArrangedSubview(postTextLabel)
     }
@@ -172,7 +172,7 @@ private extension NewsTableViewCell {
         spacer.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
 
         footerStack.axis = .horizontal
-        footerStack.alignment = .center
+        footerStack.alignment = .bottom
         footerStack.spacing = Metrics.Spacing.medium
         footerStack.addArrangedSubview(likeButton)
         footerStack.addArrangedSubview(commentButton)
@@ -183,7 +183,7 @@ private extension NewsTableViewCell {
 
     func setupRoot() {
         rootStack.axis = .vertical
-        rootStack.spacing = Metrics.Spacing.tiny
+        rootStack.spacing = 6 // отступы между секциями (было 4, +2)
         rootStack.translatesAutoresizingMaskIntoConstraints = false
         cardView.addSubview(rootStack)
 

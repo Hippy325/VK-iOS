@@ -35,7 +35,7 @@ enum AppColor {
     }
 
     static let placeholder = UIColor { trait in
-        trait.userInterfaceStyle == .dark ? UIColor(white: 0.20, alpha: 1) : UIColor(white: 0.93, alpha: 1)
+        trait.userInterfaceStyle == .dark ? UIColor(white: 0.26, alpha: 1) : UIColor(white: 0.85, alpha: 1)
     }
 
     /// VK blue, #0077FF

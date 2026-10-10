@@ -7,5 +7,6 @@
 
 protocol INewsPresenter {
     func didLoad()
-    
+    func didPullToRefresh()
+    func didReachEnd()
 }

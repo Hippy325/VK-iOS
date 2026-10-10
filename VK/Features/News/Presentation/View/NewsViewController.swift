@@ -14,10 +14,17 @@ final class NewsViewController: UIViewController {
 
     private lazy var titleView = UserTitleView()
 
+    private lazy var refreshControl: UIRefreshControl = {
+        let control = UIRefreshControl()
+        control.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        return control
+    }()
+
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.prefetchDataSource = self
         tableView.register(
             NewsTableViewCell.self,
             forCellReuseIdentifier: NewsTableViewCell.reuseIdentifier
@@ -27,6 +34,7 @@ final class NewsViewController: UIViewController {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 240
         tableView.showsVerticalScrollIndicator = false
+        tableView.refreshControl = refreshControl
         return tableView
     }()
 
@@ -44,6 +52,10 @@ final class NewsViewController: UIViewController {
         setupUI()
         setupNavigationBar()
         presenter.didLoad()
+    }
+
+    @objc private func handleRefresh() {
+        presenter.didPullToRefresh()
     }
 
     private func setupUI() {
@@ -81,9 +93,29 @@ final class NewsViewController: UIViewController {
 }
 
 extension NewsViewController: INewsView {
+    func display(_ state: NewsViewState) {
+        refreshControl.endRefreshing()
+
+        switch state {
+        case .loading:
+            break
+        case .loaded(let items):
+            self.items = items
+            tableView.reloadData()
+        case .empty:
+            items.removeAll()
+            tableView.reloadData()
+        case .error(let message):
+            presentError(message)
+        }
+    }
+
+    func setLoadingMore(_ isLoading: Bool) {
+        tableView.setLoadingFooter(isLoading)
+    }
 }
 
-extension NewsViewController: UITableViewDataSource, UITableViewDelegate {
+extension NewsViewController: UITableViewDataSource {
     func tableView(
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
@@ -101,5 +133,27 @@ extension NewsViewController: UITableViewDataSource, UITableViewDelegate {
         ) as? NewsTableViewCell else { return UITableViewCell() }
         cell.configure(items[indexPath.row])
         return cell
+    }
+}
+
+extension NewsViewController: UITableViewDelegate {
+    func tableView(
+        _ tableView: UITableView,
+        willDisplay cell: UITableViewCell,
+        forRowAt indexPath: IndexPath
+    ) {
+        guard indexPath.row == items.count - 1 else { return }
+        presenter.didReachEnd()
+    }
+}
+
+extension NewsViewController: UITableViewDataSourcePrefetching {
+    func tableView(
+        _ tableView: UITableView,
+        prefetchRowsAt indexPaths: [IndexPath]
+    ) {
+        guard let maxRow = indexPaths.map(\.row).max(),
+              maxRow >= items.count - 2 else { return }
+        presenter.didReachEnd()
     }
 }

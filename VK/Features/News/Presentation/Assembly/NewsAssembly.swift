@@ -9,7 +9,17 @@ import UIKit
 
 final class NewsAssembly: INewsAssembly {
     func assembly() -> UIViewController {
+        let service = NewsServiceMock()
+        let interactor = NewsInteractor(service: service)
         let presenter = NewsPresenter()
-        return NewsViewController(presenter: presenter)
+        let router = NewsRouter()
+        let view = NewsViewController(presenter: presenter)
+
+        presenter.view = view
+        presenter.interactor = interactor
+        presenter.router = router
+        interactor.output = presenter
+
+        return view
     }
 }

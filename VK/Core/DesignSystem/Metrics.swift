@@ -22,10 +22,12 @@ enum Metrics {
         static let screen: CGFloat = 8
         /// Внутренние отступы карточки поста.
         static let horizontal: CGFloat = 12
-        static let vertical: CGFloat = 12
+        static let vertical: CGFloat = 16
         /// Отступ карточки внутри ячейки, чтобы тень не обрезалась таблицей.
         static let cardHorizontal: CGFloat = 4
-        static let cardVertical: CGFloat = 6
+        /// Расстояние между карточками постов (делится поровну между соседними ячейками).
+        static let postSpacing: CGFloat = 12
+        static let cardVertical: CGFloat = postSpacing / 2
     }
 
     enum Size {
